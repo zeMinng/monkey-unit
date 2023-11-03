@@ -4,8 +4,8 @@
 // @version      0.5.1
 // @description  懒人专用的密码填充插件
 // @author       zeMing
-// @match        *://*.project.chinachdu.com/user-login*
 // @match        *://*.project.chinachdu.com/*
+// @match        *://*.project.chinachdu.com/user-login*
 // @icon         https://cdn.chinachdu.com/webStatic/wechat-applets/nyt-static/xiao-sun.png
 // @license      MIT
 // @grant        none
@@ -50,24 +50,8 @@
   let userPassDom = document.querySelector('input[type="password"][name="password"]')
   let keepLoginDom = document.querySelector('input[type="checkbox"][name="keepLogin[]"]') || document.getElementById("keepLoginon")
   let submitDom = document.getElementById("submit")
-  if (userNameDom || userPassDom) {
-      submitDom = document.getElementById("submit")
-      log(submitDom)
-      log('登录页面')
-      let { name, pass } = userInfo
-      const jsonUser = localStorage.getItem('userInfoKey')
-      if (!jsonUser) return
-      log(jsonUser)
-      let { name: storageName, pass: storagePass } = jsonUser && JSON.parse(jsonUser)
-      userNameDom.value = name || storageName
-      userPassDom.value = pass || storagePass
-      keepLoginDom.checked = keepLoginDom.checked || true
-      if (name || pass) return
-      document.getElementById("submit").click()
-  }
 
-  submitDom.addEventListener('click', function() {
-      log('点击了')
+  submitDom && submitDom.addEventListener('click', function() {
       userInfo = {
           name: userNameDom.value,
           pass: userPassDom.value,
@@ -75,4 +59,16 @@
       localStorage.setItem("userInfoKey", JSON.stringify(userInfo));
   })
 
+  if (userNameDom || userPassDom) {
+      log('登录页面')
+      const jsonUser = localStorage.getItem('userInfoKey')
+      if (!jsonUser) return
+      let { name: storageName, pass: storagePass } = jsonUser && JSON.parse(jsonUser)
+      let { name, pass} = userInfo
+      userNameDom.value = name || storageName
+      userPassDom.value = pass || storagePass
+      keepLoginDom.checked = keepLoginDom.checked || true
+      if (name || pass) return
+      submitDom.click()
+  }
 })();
