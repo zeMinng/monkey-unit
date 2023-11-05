@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         密码自动填充
 // @namespace    http://tampermonkey.net/
-// @version      0.5.1
+// @version      0.6.1
 // @description  懒人专用的密码填充插件
 // @author       zeMing
 // @match        *://*.project.chinachdu.com/*
@@ -11,6 +11,18 @@
 // @grant        none
 // ==/UserScript==
 
+/**
+ *                  前言
+ * 首先感谢使用，本脚本针对的是禅道的免登录密码自动填充。
+ * 本脚本你作为使用者，应该具备一定的IT知识。
+ * 代码的第7行、第8行，代表的是脚本的运行网址。
+ * 
+ * 你需要做的是：
+ * 将代码的第7行、第8行进行修改，否则无法正常使用该脚本。(重要)！
+ * 至于怎么修改，可百度@match规则。(重要)！
+ * 
+ */
+
 /*
    project.chinachdu.com所有的页面
    //@match        *://*.project.chinachdu.com/*
@@ -19,6 +31,9 @@
 */
 
 /*
+  2023-11-03
+  1.[优化]: 逻辑优化
+
   2023-04-19
   1.[新增]: 默认选中-保持登陆
 
@@ -39,10 +54,10 @@
 
   // 在这里配置你的账户信息
   let userInfo = {
-      //name: 'duzeming', // 用户名，请更换 place
-      //pass: 'By123456', // 密码，请更换 place
-      name: '', // 用户名，请更换 place
-      pass: '', // 密码，请更换 place
+    //name: 'duzeming', // 用户名，请更换 place
+    //pass: 'By123456', // 密码，请更换 place
+    name: '', // 用户名，请更换 place
+    pass: '', // 密码，请更换 place
   }
   log('已加载自动填充密码脚本！')
   log(userInfo)
@@ -52,23 +67,23 @@
   let submitDom = document.getElementById("submit")
 
   submitDom && submitDom.addEventListener('click', function() {
-      userInfo = {
-          name: userNameDom.value,
-          pass: userPassDom.value,
-      }
-      localStorage.setItem("userInfoKey", JSON.stringify(userInfo));
+    userInfo = {
+      name: userNameDom.value,
+      pass: userPassDom.value,
+    }
+    localStorage.setItem("userInfoKey", JSON.stringify(userInfo))
   })
 
   if (userNameDom || userPassDom) {
-      log('登录页面')
-      const jsonUser = localStorage.getItem('userInfoKey')
-      if (!jsonUser) return
-      let { name: storageName, pass: storagePass } = jsonUser && JSON.parse(jsonUser)
-      let { name, pass} = userInfo
-      userNameDom.value = name || storageName
-      userPassDom.value = pass || storagePass
-      keepLoginDom.checked = keepLoginDom.checked || true
-      if (name || pass) return
-      submitDom.click()
+    log('登录页面')
+    const jsonUser = localStorage.getItem('userInfoKey')
+    if (!jsonUser) return
+    let { name: storageName, pass: storagePass } = jsonUser && JSON.parse(jsonUser)
+    let { name, pass} = userInfo
+    userNameDom.value = name || storageName
+    userPassDom.value = pass || storagePass
+    keepLoginDom.checked = keepLoginDom.checked || true
+    if (name || pass) return
+    submitDom.click()
   }
-})();
+})()
