@@ -1,84 +1,78 @@
 // ==UserScript==
 // @name         密码自动填充
-// @namespace    http://tampermonkey.net/
-// @version      0.6.1
-// @description  懒人专用的密码填充插件
+// @namespace    zeMing
+// @version      0.6.2
+// @description  禅道--懒人专用的密码填充插件
 // @author       zeMing
 // @match        *://*.project.chinachdu.com/*
 // @match        *://*.project.chinachdu.com/user-login*
 // @icon         https://cdn.chinachdu.com/webStatic/wechat-applets/nyt-static/xiao-sun.png
 // @license      MIT
-// @grant        none
+// @grant        GM_setValue
+// @grant        GM_getValue
+// @grant        GM_deleteValue
+// @grant        GM_listValues
 // ==/UserScript==
 
 /**
  *                  前言
- * 首先感谢使用，本脚本针对的是禅道的免登录密码自动填充。
- * 本脚本你作为使用者，应该具备一定的IT知识。
- * 代码的第7行、第8行，代表的是脚本的运行网址。
- * 
+ * 感谢使用，本脚本针对的是禅道的免登录密码自动填充。你作为使用者，应该具备一定的IT知识。
+ * 代码的第7行、第8行代表的是脚本的运行网址。作者使用的为project.chinachdu.com所有的页面
+ *
  * 你需要做的是：
  * 将代码的第7行、第8行进行修改，否则无法正常使用该脚本。(重要)！
  * 至于怎么修改，可百度@match规则。(重要)！
- * 
+ *
  */
 
 /*
-   project.chinachdu.com所有的页面
-   //@match        *://*.project.chinachdu.com/*
-   jQuery CDN
-   //@require https://cdn.staticfile.org/jquery/3.6.4/jquery.min.js
+  jQuery CDN
+  //@require https://cdn.staticfile.org/jquery/3.6.4/jquery.min.js
 */
 
 /*
-  2023-11-03
-  1.[优化]: 逻辑优化
+  2023-11-08 1.[优化]: 代码重构、优化
 
-  2023-04-19
-  1.[新增]: 默认选中-保持登陆
+  2023-11-03 1.[优化]: 逻辑优化
 
-  2023-04-14
-  1.[修复]: 只在登陆页面加载脚本
+  2023-04-19 1.[新增]: 默认选中-保持登陆
 
-  2023-04-13
-  1.[新增]: 密码填充简易版
+  2023-04-14 1.[修复]: 只在登陆页面加载脚本
+
+  2023-04-13 1.[新增]: 密码填充简易版
 */
 
 (function() {
   'use strict';
-  // Your code here...
   /* globals jQuery, $, waitForKeyElements */
 
   // 解构简易化，勿动
   const { log } = console
-
-  // 在这里配置你的账户信息
   let userInfo = {
-    //name: 'duzeming', // 用户名，请更换 place
-    //pass: 'By123456', // 密码，请更换 place
-    name: '', // 用户名，请更换 place
-    pass: '', // 密码，请更换 place
+    //name: 'duzeming',
+    //pass: 'By123456',
+    name: '',
+    pass: '',
   }
   log('已加载自动填充密码脚本！')
-  log(userInfo)
-  let userNameDom = document.querySelector('input[type="text"][name="account"]')
-  let userPassDom = document.querySelector('input[type="password"][name="password"]')
-  let keepLoginDom = document.querySelector('input[type="checkbox"][name="keepLogin[]"]') || document.getElementById("keepLoginon")
-  let submitDom = document.getElementById("submit")
+  const userNameDom = document.querySelector('input[type="text"][name="account"]')
+  const userPassDom = document.querySelector('input[type="password"][name="password"]')
+  const keepLoginDom = document.querySelector('input[type="checkbox"][name="keepLogin[]"]') || document.getElementById("keepLoginon")
+  const submitDom = document.getElementById("submit")
 
   submitDom && submitDom.addEventListener('click', function() {
     userInfo = {
       name: userNameDom.value,
       pass: userPassDom.value,
     }
-    localStorage.setItem("userInfoKey", JSON.stringify(userInfo))
+    GM_setValue('userInfoKey', userInfo)
   })
 
   if (userNameDom || userPassDom) {
-    log('登录页面')
-    const jsonUser = localStorage.getItem('userInfoKey')
+    const jsonUser = GM_getValue('userInfoKey')
+    const keys = GM_listValues()
     if (!jsonUser) return
-    let { name: storageName, pass: storagePass } = jsonUser && JSON.parse(jsonUser)
+    let { name: storageName, pass: storagePass } = jsonUser || {}
     let { name, pass} = userInfo
     userNameDom.value = name || storageName
     userPassDom.value = pass || storagePass
