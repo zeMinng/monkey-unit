@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         密码自动填充
 // @namespace    http://tampermonkey.net/
-// @version      0.6.2
+// @version      0.0.1
 // @description  西安石油大学--校园网密码填充插件
 // @author       zeMing
 // @match        *://*.10.123.0.253/*
@@ -29,8 +29,8 @@
   // 解构简易化，勿动
   const { log } = console
   let userInfo = {
-    name: '202208130114',
-    pass: 'GSQ2719812932..',
+    name: '',
+    pass: '',
   }
   log('已加载自动填充密码脚本！')
 
