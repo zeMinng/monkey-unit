@@ -34,6 +34,32 @@
   }
   log('已加载自动填充密码脚本！')
 
+  window.onload = () => {
+    initView()
+  }
 
+  const initView = () => {
+    const userNameDom = document.querySelector('input[type="text"][name="DDDDD"]')
+    const userPassDom = document.querySelector('input[type="password"][name="upass"]')
+    const keepLoginDom = document.querySelector('input[type="checkbox"][name="savePassword"]')
+    const submitDom = document.querySelector('input[type="submit"][name="0MKKey"]')
 
+    if (userNameDom || userPassDom) {
+      const jsonUser = GM_getValue('userInfo_GM')
+      const { name: storageName, pass: storagePass } = jsonUser || {}
+      const { name, pass} = userInfo
+      userNameDom.value = storageName ?? name
+      userPassDom.value = storagePass ?? pass
+      keepLoginDom.checked = keepLoginDom.checked || true
+      submitDom.click()
+    }
+
+    submitDom && submitDom.addEventListener('click', function() {
+      userInfo = {
+        name: userNameDom.value,
+        pass: userPassDom.value,
+      }
+      GM_setValue('userInfoKey', userInfo)
+    })
+  }
 })()
