@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         密码自动填充
+// @name         西安石油大学校园网自动登录
 // @namespace    http://tampermonkey.net/
 // @version      0.0.1
 // @description  西安石油大学--校园网密码填充插件

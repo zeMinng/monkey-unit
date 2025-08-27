@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         密码自动填充
+// @name         禅道密码自动填充登录
 // @namespace    http://tampermonkey.net/
 // @version      0.6.2
 // @description  禅道--懒人专用的密码填充插件
