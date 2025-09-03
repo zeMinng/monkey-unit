@@ -6,7 +6,7 @@
 // @author       zeMing
 // @match        *://*.project.chinachdu.com/*
 // @match        *://*.project.chinachdu.com/user-login*
-// @icon         https://cdn.chinachdu.com/webStatic/wechat-applets/nyt-static/xiao-sun.png
+// @icon         https://zentao.net/favicon.ico
 // @license      MIT
 // @grant        GM_setValue
 // @grant        GM_getValue
@@ -49,8 +49,6 @@
   // 解构简易化，勿动
   const { log } = console
   let userInfo = {
-    //name: 'duzeming',
-    //pass: 'By123456',
     name: '',
     pass: '',
   }

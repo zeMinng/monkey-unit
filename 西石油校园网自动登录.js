@@ -5,7 +5,7 @@
 // @description  西安石油大学--校园网密码填充插件
 // @author       zeMing
 // @match        *://*.10.123.0.253/*
-// @icon         https://cdn.chinachdu.com/webStatic/wechat-applets/nyt-static/xiao-sun.png
+// @icon         https://xsyu.edu.cn/favicon.ico
 // @license      MIT
 // @grant        GM_setValue
 // @grant        GM_getValue
